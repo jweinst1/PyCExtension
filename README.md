@@ -21,6 +21,22 @@ small values as input like this:
 printer hello!
 ```
 
-The repo also serves as a template for starting Python C extension packages.
+The repo also serves as a template for starting Python C extension packages. It has the entire setup
+to build and develop a C extension you can publish to the Python package index.
 
 ### Why make a C Extension?
+
+C extesnions are fast, performant python libraries that can serve several purposes. Those include:
+
+####` High Performance`: 
+
+C extensions can perform hundreds of times faster than equivalent code written in Python. 
+This is because c functions are natively compiled, and just a thin layer over assembly code. Additionally, some
+tasks can be slower to perform in Python, such as string processing. Python has no concept of a character, just strings of different lengths.
+While C, has a very raw and effecient string composed purely of a block of memory terminated with a `\0` character. Overall,
+C extensions provide a way to gain a powerhouse of performance in Python.
+
+#### `Wrapping`:
+
+Lots of widely used software libraries are written in
+
