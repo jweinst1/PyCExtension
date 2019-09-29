@@ -55,5 +55,28 @@ the `GIL` can be released, allowing for multi-threaded python work flows.
 ## The Python C API
 
 The Python language provides an extensive C API that allows you to compile and build C functions that
-can accept and process Python typed objects. 
+can accept and process Python typed objects. This is done through writing a special form of a C library,
+that is not only linked with the Python libraries, but creates a *module object* the Python interpreter imports
+like a regular Python module.
+
+Before we get into the building steps, lets understand how a C function can process Python objects as input
+and return Python objects as output. Let's look at the function below:
+
+```c
+#include <Python.h>
+
+static PyObject* print_message(PyObject* self, PyObject* args)
+{
+    const char* str_arg;
+    if(!PyArg_ParseTuple(args, "s", &str_arg)) {
+        puts("Could not parse the python arg!");
+        return NULL;
+    }
+
+    printf("msg %s\n", str_arg);
+    // This can also be done with Py_RETURN_NONE
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+```
 
