@@ -42,3 +42,18 @@ called directly from Python, because Python does not understand C types without 
 However, extensions can be used to wrap C code to make it callable from Python. The building and parsing of Python
 types will be explained later.
 
+#### `Low Level Tools`:
+
+In Python, the degree to which one can utilize low level and operating system level utilities is 
+quite limited. Python uses a Global Interpreter Lock (GIL), that allows only one thread at a time to execute
+Python bytecode. This means that although some I/O bound tasks like file writes or network requests can
+happen concurrently, access to Python objects and functions cannot.
+
+With C, a program has complete and unrestricted freedom to any resources it can load and use. In a C extension,
+the `GIL` can be released, allowing for multi-threaded python work flows.
+
+## The Python C API
+
+The Python language provides an extensive C API that allows you to compile and build C functions that
+can accept and process Python typed objects. 
+
