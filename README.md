@@ -2,8 +2,6 @@
 
 ![Learn Python C Extensions](images/logo.png)
 
-A template repo to learn about and develop Python C Extensions
-
 
 ## Intro
 
@@ -28,7 +26,7 @@ to build and develop a C extension you can publish to the Python package index.
 
 C extesnions are fast, performant python libraries that can serve several purposes. Those include:
 
-####` High Performance`: 
+#### `High Performance`: 
 
 C extensions can perform hundreds of times faster than equivalent code written in Python. 
 This is because c functions are natively compiled, and just a thin layer over assembly code. Additionally, some
@@ -38,5 +36,9 @@ C extensions provide a way to gain a powerhouse of performance in Python.
 
 #### `Wrapping`:
 
-Lots of widely used software libraries are written in
+Lots of widely used software libraries are written in C. However, many application level systems, like web development
+framewroks, or mobile development frameworks, are written in languages like Java or Python. C functions can't be
+called directly from Python, because Python does not understand C types without converting them to Python types. 
+However, extensions can be used to wrap C code to make it callable from Python. The building and parsing of Python
+types will be explained later.
 
