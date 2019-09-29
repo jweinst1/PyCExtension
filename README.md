@@ -1,5 +1,7 @@
 # PyCExtension
 
+![Learn Python C Extensions](images/logo.png)
+
 A template repo to learn about and develop Python C Extensions
 
 

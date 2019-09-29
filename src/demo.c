@@ -12,6 +12,8 @@ static PyObject* print_message(PyObject* self, PyObject* args)
 #else
     printf("msg %s\n", str_arg);
 #endif
+    // This can also be done with Py_RETURN_NONE
+    Py_INCREF(Py_None);
     return Py_None;
 }
 
