@@ -80,3 +80,28 @@ static PyObject* print_message(PyObject* self, PyObject* args)
 }
 ```
 
+The type, `PyObject*`, is the *dynamic* type that represents any Python object. You can think of it like a
+base class, where every other Python object, like `PyBool` or `PyTuple` inherits from `PyObject`. The C
+language has no *true* concept of classes. Yet, there are some tricks to implement an inheritance, polymorphic like system.
+The details of this are beyond the scope of this guide, but one way to think about it is this:
+
+```c
+
+#define TYPE_INFO int type; \
+                  size_t size
+
+struct a_t {
+    TYPE_INFO;
+};
+
+struct b_t {
+    TYPE_INFO;
+    char buf[20];
+};
+
+struct b_t foo;
+// Fields are always ordered, this will work
+(struct a_t*)(&foo)->type
+```
+
+In the above example, both `a_t` and `b_t` share the same fields at the beginning of their definitions.
