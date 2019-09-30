@@ -101,7 +101,43 @@ struct b_t {
 
 struct b_t foo;
 // Fields are always ordered, this will work
-(struct a_t*)(&foo)->type
+((struct a_t*)&foo)->type
 ```
 
-In the above example, both `a_t` and `b_t` share the same fields at the beginning of their definitions.
+In the above example, both `a_t` and `b_t` share the same fields at the beginning of their definitions. This means, casting `struct b_t*` to
+`struct a_t*` works because the fields of `a_t` compose the same, prefixed portion of `b_t`.
+
+### Parsing Arguments
+
+The function has to parameters, `self` and `args`. For now, think of `self` as the object at which the function is called from.
+As stated in the beginning, we will be writing our function to be called from the scope of the module.
+
+The function parses the objects within `args` in this statement:
+
+```c
+if(!PyArg_ParseTuple(args, "s", &str_arg)) {
+```
+
+Here, the `args` parameter is actually a `PyTuple`, the same thing as a tuple in Python, such as 
+`x = (1, 2)`. In the case of a normal function call in Python, with no keyword args, the arguments are packed
+as a tuple and passed into the corresponding C function being called. The `"s"` string is a format specifier.
+It indicates we expect and want to extract one `const char*` as the first and only argument to our function.
+More information on [parsing Python C arguments](https://docs.python.org/3/c-api/arg.html).
+
+### Returning Values
+
+In the last part of the function, we have the following statements
+
+```c
+    Py_INCREF(Py_None);
+    return Py_None;
+```
+
+In the Python C API, the `None` type is represented as a singleton. Yet, like any other `PyObject`, we have
+to obey it's reference counting rules and accurately adjust those as we use it. Other C Python functions 
+may build and return other values. For more info on building values, [see here](https://docs.python.org/3/c-api/arg.html#building-values)
+
+
+
+
+ 
