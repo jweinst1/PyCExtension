@@ -172,7 +172,45 @@ PyMODINIT_FUNC PyInit_DemoPackage(void)
 
 *Note: The name in the PyInit_ function and the name in the module definition MUST match.*
 
+This code, along with our previous `print_message` function should be placed in a single C file.
+That C file can be built into a C Extension with a special `setup.py` file. Below is an example, 
+which is also included in this repo:
 
+```py
+from distutils.core import setup, Extension
 
+# A Python package may have multiple extensions, but this
+# template has one.
+module1 = Extension('DemoPackage',
+                    define_macros = [('USE_PRINTER', '1')],
+                    include_dirs = ['include'],
+                    sources = ['src/demo.c'])
 
- 
+setup (name = 'DemoPackage',
+       version = '1.0',
+       description = 'This is a demo package',
+       author = '<first> <last>',
+       author_email = 'person@site.com',
+       url = 'https://docs.python.org/extending/building',
+       long_description = open('README.md').read(),
+       ext_modules = [module1])
+```
+
+This setup file uses the `Extension` class from `distutils.core` to specify the option, such as
+definitions for the C preprocessor, or an include dir to use when invoking the compiler. C extensions 
+are always built with the compiler from which the running instance of the python interpreter was
+built with. The `Extension` class is very similar to a `CMake` setup, specifying a target, and the options
+to build that target with.
+
+In this repo, you will also find a `MANIFEST.in` file. This is to specify other files we want packaged
+in the distribution of our Python package. But this is not required, this is only if publishing a C extension
+is desired.
+
+### Building and Installing
+
+You can then build and install the extension with the following commands.
+
+ ```
+ $ python setup.py build
+ $ python setup.py install
+ ```
