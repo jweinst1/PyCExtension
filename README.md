@@ -137,6 +137,41 @@ In the Python C API, the `None` type is represented as a singleton. Yet, like an
 to obey it's reference counting rules and accurately adjust those as we use it. Other C Python functions 
 may build and return other values. For more info on building values, [see here](https://docs.python.org/3/c-api/arg.html#building-values)
 
+This particular function is only meant to print, by convention those usually return `None`.
+
+## C Extensions Structure
+
+Now, we can explore the structure of how we compose the extensions that Python will actually be
+able to import and use within the Python runtime. To do that, we need three things. First is the definition of
+all the methods the extension offers. This is an array of `PyMethodDef`, terminated by an empty version of the
+struct. Next is the module definition. This basically titles the module, describes it, and points to our
+list of method definitions. Just like in pure Python, everything in an Extension is really an object. Lastly,
+we have a `PyInit_` method that initializes our module when it's imported and creates the module object:
+
+```c
+static PyMethodDef myMethods[] = {
+    { "print_message", print_message, METH_VARARGS, "Prints a called string" },
+    { NULL, NULL, 0, NULL }
+};
+
+// Our Module Definition struct
+static struct PyModuleDef myModule = {
+    PyModuleDef_HEAD_INIT,
+    "DemoPackage",
+    "A demo module for python c extensions",
+    -1,
+    myMethods
+};
+
+// Initializes our module using our above struct
+PyMODINIT_FUNC PyInit_DemoPackage(void)
+{
+    return PyModule_Create(&myModule);
+}
+```
+
+*Note: The name in the PyInit_ function and the name in the module definition MUST match.*
+
 
 
 
