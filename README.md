@@ -37,7 +37,7 @@ C extensions provide a way to gain a powerhouse of performance in Python.
 #### `Wrapping`:
 
 Lots of widely used software libraries are written in C. However, many application level systems, like web development
-framewroks, or mobile development frameworks, are written in languages like Java or Python. C functions can't be
+frameworks, or mobile development frameworks, are written in languages like Java or Python. C functions can't be
 called directly from Python, because Python does not understand C types without converting them to Python types. 
 However, extensions can be used to wrap C code to make it callable from Python. The building and parsing of Python
 types will be explained later.
